@@ -16,13 +16,13 @@ public class SpringbootBeetlApplication {
         SpringApplication.run(SpringbootBeetlApplication.class, args);
 
         //Beetl
-        UserService userService = new UserService();
-        List<User> usersInfo = userService.testAllUsers();
-        long date1 = new Date().getTime();
-        StaticUtil staticUtil = new StaticUtil();
-        staticUtil.makeBeetl("usersInfo",usersInfo,"testBeetl","testBeetl_static");
-        long date2 = new Date().getTime();
-        System.out.println("静态化过程耗时：" + (date2-date1));
+//        UserService userService = new UserService();
+//        List<User> usersInfo = userService.testAllUsers();
+//        long date1 = new Date().getTime();
+//        StaticUtil staticUtil = new StaticUtil();
+//        staticUtil.makeBeetl("usersInfo",usersInfo,"testBeetl","testBeetl_static");
+//        long date2 = new Date().getTime();
+//        System.out.println("静态化过程耗时：" + (date2-date1));
     }
 
 }

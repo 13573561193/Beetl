@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>111111</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<div>
+    <h3>${numb}</h3>
+    <h3>${numb1}</h3>
+    <h3>整型相加：
+        <%
+            var num = numb + numb1;
+        %>
+        ${num}
+    </h3>
+    <h3>整型字符拼接
+        <%
+            var ch = numb + "" + numb1;
+        %>
+        ${ch}
+    </h3>
+    <h3>字符串数字转整型
+        <%
+            var num_ch = parseInt(ch_numb);
+            var sum = num_ch + numb;
+        %>
+        ${sum}
+    </h3>
+</div>
+</body>
+</html>

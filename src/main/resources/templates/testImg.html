@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta charset="UTF-8">
+    <title>显示图片</title>
+    <link href="bootstrap/css/bootstrap.css"  rel="stylesheet" />
+    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<div>
+    <div class="warp">
+        <div class="mod-tab">
+            <ul id="list">
+                <li class="tab-con" style="opacity: 1">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u11.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u12.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u13.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u14.png)"></a>
+                    </span>
+                </li>
+
+            </ul>
+            <div id="gb-tab" class="gb-tab">
+                <a href="javascript:;" class="item2"></a>
+                <a href="javascript:;" class="item"></a>
+                <a href="javascript:;" class="item"></a>
+                <a href="javascript:;" class="item"></a>
+            </div>
+            <a href="javascript:;" id="prev" class="arrow"><</a>
+            <a href="javascript:;" id="next" class="arrow">></a>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<script>
+    var list = $('#list .tab-con'); //获取与图片相关的<li>对象
+    var container = $('.mod-tab');   //获取整个轮播图容器对象
+    var index = 1;                   //指当前图片对象
+    var timer;                       //定时对象
+    var buttons = $('#gb-tab a');    //获取图片下面的按钮对象
+    var prev = $('#prev');           //获取左按钮对象
+    var next = $('#next');           //获取右按钮对象
+    var stateNext = true;
+    var statePrev = true;
+
+    $(document).ready(function(){
+        container.mouseover(function(){    //用于鼠标进入轮播图区域停止轮播
+            stop();
+        });
+        container.mouseout(function(){     //用于鼠标离开轮播图区域开始轮播
+            play();
+        });
+        for (var i = 0; i < buttons.length; i++) {  //循环绑定下面按钮的点击事情
+            (function (i) {
+                buttons[i].onclick = function () {
+                    index = i + 1;
+                    imgShow();
+                    buttonsShow();
+                }
+            })(i)
+        }
+        prev.click(function () {            //点击左按钮轮播图片事件。利用延时器解决无限点击问题。
+            if(statePrev){
+                index -= 1;
+                if (index < 1) {
+                    index = 4
+                }
+                imgShow();
+                buttonsShow();
+                statePrev = false;
+                setTimeout(function(){
+                    statePrev = true;
+                },1000)
+            }
+        });
+
+        next.click(function () {
+            //由于上边定时器的作用，index会一直递增下去，我们只有4个小圆点，所以需要做出判断
+            if(stateNext){
+                index += 1;
+                if (index > 4) {
+                    index = 1
+                }
+                imgShow();
+                buttonsShow();
+                stateNext = false;
+                setTimeout(function(){
+                    stateNext = true
+                },1000)
+            }
+        });
+    });
+
+    function play() {                    //开始轮播函数
+        //重复执行的定时器
+        timer = setInterval(function () {
+            index += 1;
+            if (index > 4) {
+                index = 1
+            }
+            imgShow();
+            buttonsShow();
+        }, 4000)
+    }
+
+    function stop() {                   //停止轮播函数
+        clearInterval(timer);
+    }
+
+    function imgShow(){                 //图片显示函数
+        for (var i = 0; i < list.length; i++) {
+            if (list.eq(i).css('opacity') == 1) {
+                list.eq(i).fadeTo(1000,0);
+            }
+        }
+        list.eq(index - 1).fadeTo(1000,1);
+    }
+
+    function buttonsShow() {           //图片下面按钮的显示函数。
+        //将之前的小圆点的样式清除
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].className == "item2") {
+                buttons[i].className = "item";
+            }
+        }
+        buttons[index - 1].className = "item2";
+    }
+    play();
+</script>
+
+<style>
+    .warp{
+        width: 800px;
+    }
+    .mod-tab{
+        width: 100%;
+        min-width: 800px;
+        height: 500px;
+        margin: 5px;
+        position: relative;
+    }
+    ul{
+        list-style: none;
+    }
+    .tab-con{
+        height: 500px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .pic{
+        height: 500px;
+        width: 100%;
+    }
+    .pic a{
+        display: block;
+        width: 100%;
+        height: 500px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    .gb-tab{
+        overflow: hidden;
+        position: absolute;
+        z-index: 60;
+        bottom: 0;
+        height: 60px;
+        width: 100%;
+        text-align: center;
+    }
+    .gb-tab .item{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin: 6px;
+        color: #6ff;
+        background-color: #003c49;
+        text-align: center;
+        line-height: 16px;
+    }
+    .item2{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin: 6px;
+        color: #6ff;
+        background-color: #ffffff;
+        text-align: center;
+        line-height: 16px;
+    }
+
+    .gb-tab a:hover{
+        background-color: #ffffff;
+    }
+    .on{
+        background-color: #ffffff;
+    }
+    .arrow{
+        position: absolute;
+        top: 171px;
+        z-index: 99;
+        display: none;
+        width: 40px;
+        height: 40px;
+        font-size: 36px;
+        font-weight: bold;
+        line-height: 39px;
+        text-align: center;
+        color: #fff;
+        background-color: RGBA(0, 0, 0, .3);
+        cursor: pointer;
+    }
+    .arrow:hover {
+        background-color: RGBA(0, 0, 0, .7);
+    }
+    .warp:hover .arrow {
+        display: block;
+    }
+    #prev {
+        left: 20px;
+    }
+    #next {
+        right: 20px;
+    }
+</style>
+
+</html>

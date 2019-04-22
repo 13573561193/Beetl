@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="GBK"/>
-    <title>ÏÔÊ¾È«²¿ÓÃ»§</title>
+    <meta charset="UTF-8"/>
+    <title>æ˜¾ç¤ºå…¨éƒ¨ç”¨æˆ·</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
@@ -15,18 +15,18 @@
         <div class="col-md-7">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <span class="panel-title">È«²¿ÓÃ»§ĞÅÏ¢</span>
+                    <span class="panel-title">å…¨éƒ¨ç”¨æˆ·ä¿¡æ¯</span>
                 </div>
                 <% for(user in usersInfo) {%>
                 <div class="panel-body">
                     <table class="table-bordered" style="width: 100%">
                         <tr style="height: 40px; background-color: #f7ecb5">
-                            <th class="text-center">±àºÅ</th>
-                            <th class="text-center">ÓÃ»§Ãû</th>
-                            <th class="text-center">ÃÜÂë</th>
-                            <th class="text-center">µç»°</th>
-                            <th class="text-center">×¢²áÊ±¼ä</th>
-                            <th class="text-center">È¨ÏŞ</th>
+                            <th class="text-center">ç¼–å·</th>
+                            <th class="text-center">ç”¨æˆ·å</th>
+                            <th class="text-center">å¯†ç </th>
+                            <th class="text-center">ç”µè¯</th>
+                            <th class="text-center">æ³¨å†Œæ—¶é—´</th>
+                            <th class="text-center">æƒé™</th>
                         </tr>
                         <tr class="text-center" style="height: 40px">
                             <td><span>${user.id}</span></td>
@@ -34,7 +34,7 @@
                             <td><span>${user.password}</span></td>
                             <td><span>${user.telephone}</span></td>
                             <td><span>${user.registerTime}</span></td>
-                            <td><span>${user.popedom==0?'¹ÜÀíÔ±':'ÆÕÍ¨ÓÃ»§'}</span></td>
+                            <td><span>${user.popedom==0?'ç®¡ç†å‘˜':'æ™®é€šç”¨æˆ·'}</span></td>
                         </tr>
                     </table>
                 </div>

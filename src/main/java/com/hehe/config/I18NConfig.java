@@ -13,7 +13,7 @@ public class I18NConfig {
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setBasename("application");
-        messageSource.setDefaultEncoding("GBK");
+        messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(2);
         return messageSource;
     }
