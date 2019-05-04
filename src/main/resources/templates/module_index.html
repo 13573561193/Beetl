@@ -4,14 +4,449 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta charset="UTF-8">
     <title>显示图片</title>
-    <link href="bootstrap/css/bootstrap.css"  rel="stylesheet" />
-    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
+    <link href="bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
     <script src="scripts/jquery-3.3.1.min.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-    <div>
+<div class="container">
+    <!--头部-->
+    <div class="container top">
+        <div class="col-md-2">
+            <span id="logo_font">XXXXX系统</span>
+        </div>
+        <div class="col-md-8">
+            <ul class="level">
+                <a href="#"><li class="top_li">大栏目1</li></a>
+                <a href="#"><li class="top_li">大栏目2</li></a>
+                <a href="#"><li class="top_li">大栏目3</li></a>
+                <a href="#"><li class="top_li">大栏目4</li></a>
+                <a href="#"><li class="top_li">大栏目5</li></a>
+                <li class="top_li_select">
+                    <a href="#">
+                        <img src="images/select.png">
+                        <ul class="two">
+                            <a href="#"><li class="top_li_hide">大栏目6</li></a>
+                            <a href="#"><li class="top_li_hide">大栏目7</li></a>
+                            <a href="#"><li class="top_li_hide">大栏目8</li></a>
+                            <a href="#"><li class="top_li_hide">大栏目9</li></a>
+                        </ul>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-1 login_font">
+            <a href="#">登录</a>
+        </div>
+        <div class="col-md-1 register_font">
+            <a href="#">注册</a>
+        </div>
 
     </div>
+    <hr class="hr_style"/>
+
+    <!--轮播图部分-->
+    <div class="warp">
+        <div class="mod-tab">
+            <ul id="list">
+                <li class="tab-con" style="opacity: 1">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u11.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u12.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u13.png)"></a>
+                    </span>
+                </li>
+                <li class="tab-con" style="opacity: 0">
+                    <span class="pic">
+                        <a href="https://www.baidu.com/" style="background-image: url(images/u14.png)"></a>
+                    </span>
+                </li>
+
+            </ul>
+            <div id="gb-tab" class="gb-tab">
+                <a href="javascript:;" class="item2"></a>
+                <a href="javascript:;" class="item"></a>
+                <a href="javascript:;" class="item"></a>
+                <a href="javascript:;" class="item"></a>
+            </div>
+            <a href="javascript:;" id="prev" class="arrow"><</a>
+            <a href="javascript:;" id="next" class="arrow">></a>
+        </div>
+    </div>
+
+    <!--中间部分-->
+    <div class="container">
+        <div class="col-md-12">
+            <div class="system_function">
+                <div class="system_prev">
+
+                </div>
+                <div class="system_font">
+                    系统功能/模块入口
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 function_area">
+            <% for(func in funcInfo){ %>
+            <a href="#">
+                <div class="col-md-3 function_one">
+                    <ul>
+                        <li class="li_one">${func.name}</li>
+                        <li class="li_two">${func.description}</li>
+                    </ul>
+                    <hr />
+                </div>
+            </a>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+
+
+
 </body>
+
+<script>
+
+    <!--轮播图-->
+    var list = $('#list .tab-con'); //获取与图片相关的<li>对象
+    var container = $('.mod-tab');   //获取整个轮播图容器对象
+    var index = 1;                   //指当前图片对象
+    var timer;                       //定时对象
+    var buttons = $('#gb-tab a');    //获取图片下面的按钮对象
+    var prev = $('#prev');           //获取左按钮对象
+    var next = $('#next');           //获取右按钮对象
+    var stateNext = true;
+    var statePrev = true;
+
+    $(document).ready(function(){
+        container.mouseover(function(){    //用于鼠标进入轮播图区域停止轮播
+            stop();
+        });
+        container.mouseout(function(){     //用于鼠标离开轮播图区域开始轮播
+            play();
+        });
+        for (var i = 0; i < buttons.length; i++) {  //循环绑定下面按钮的点击事情
+            (function (i) {
+                buttons[i].onclick = function () {
+                    index = i + 1;
+                    imgShow();
+                    buttonsShow();
+                }
+            })(i)
+        }
+        prev.click(function () {            //点击左按钮轮播图片事件。利用延时器解决无限点击问题。
+            if(statePrev){
+                index -= 1;
+                if (index < 1) {
+                    index = 4
+                }
+                imgShow();
+                buttonsShow();
+                statePrev = false;
+                setTimeout(function(){
+                    statePrev = true;
+                },1000)
+            }
+        });
+
+        next.click(function () {
+            //由于上边定时器的作用，index会一直递增下去，我们只有4个小圆点，所以需要做出判断
+            if(stateNext){
+                index += 1;
+                if (index > 4) {
+                    index = 1
+                }
+                imgShow();
+                buttonsShow();
+                stateNext = false;
+                setTimeout(function(){
+                    stateNext = true
+                },1000)
+            }
+        });
+    });
+
+    function play() {                    //开始轮播函数
+        //重复执行的定时器
+        timer = setInterval(function () {
+            index += 1;
+            if (index > 4) {
+                index = 1
+            }
+            imgShow();
+            buttonsShow();
+        }, 4000)
+    }
+
+    function stop() {                   //停止轮播函数
+        clearInterval(timer);
+    }
+
+    function imgShow(){                 //图片显示函数
+        for (var i = 0; i < list.length; i++) {
+            if (list.eq(i).css('opacity') == 1) {
+                list.eq(i).fadeTo(1000,0);
+            }
+        }
+        list.eq(index - 1).fadeTo(1000,1);
+    }
+
+    function buttonsShow() {           //图片下面按钮的显示函数。
+        //将之前的小圆点的样式清除
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].className == "item2") {
+                buttons[i].className = "item";
+            }
+        }
+        buttons[index - 1].className = "item2";
+    }
+    play();
+
+    //控制标题栏扩展
+    $(document).ready(function(){
+        var one = true;
+        $(".top_li_select").click(function(){
+            if(one){
+                $(".two").css("display","block");
+                one = !one;
+            }else{
+                $(".two").css("display","none");
+                one = !one;
+            }
+        });
+    });
+
+</script>
+
+<style>
+
+
+
+    /*头部*/
+    .two{
+        display: none;
+        list-style-type: none;
+        width: 120px;
+        color: black;
+        position: absolute;
+        z-index: 9999;
+        background-color: white;
+        text-align: center;
+        height: 180px;
+        padding-left: 0px;
+        padding-top: -50px;
+        margin-top: -30px;
+    } /*二级菜单*/
+    .level{
+        position: absolute;
+    }
+    .top_li_hide{
+        height: 30px;
+        color: black;
+    }
+    .top_li_hide:hover{
+        color: #0099FF;
+    }
+
+
+    .top_li_select{
+        width: 100px;
+        text-align: center;
+        font-size: 20px;
+        display: inline-block;
+        list-style-type: none;
+    }
+    .top{
+        width: 100%;
+        height: 70px;
+        text-align: center;
+        line-height: 100px;
+    }
+    #logo_font{
+        font-size: 28px;
+    }
+    .top_li{
+        width: 100px;
+        text-align: center;
+        font-size: 20px;
+        display: inline-block;
+        list-style-type: none;
+        color: black;
+    }
+    .top_li:hover{
+        color: #0099FF;
+    }
+    .login_font{
+        font-size: 20px;
+        text-align: center;
+        color: blue;
+    }
+    .register_font{
+        font-size: 20px;
+        text-align: center;
+        color: red;
+    }
+    .hr_style{
+        width:100%;
+        height:1px;
+        background-color:#000;
+    }
+
+    /*中间部分*/
+    a:hover{
+        text-decoration: none;
+    }
+
+    .system_function{
+        background-color: #F2F2F2;
+        width: 100%px;
+        height: 80px;
+    }
+    .system_prev{
+        background-color: #4FC1B0;
+        width: 10px;
+        height: 80px;
+        float: left;
+    }
+    .system_font{
+        font-size: 16px;
+        color: #4FC1B0;
+        float: left;
+        margin: 20px;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .function_area{
+        margin-top: 40px;
+    }
+    .function_one{
+        margin-top:10px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        height: 70px;
+    }
+    .function_one:hover{
+        background-color: #F58F63;
+        color:white;
+    }
+    .li_one{
+        font-size: 18px;
+        font-weight: bold;
+        color: #666666;
+        list-style-type: circle;
+    }
+    .li_two{
+        font-size: 18px;
+        list-style-type: none;
+        color: #999999;
+    }
+    /*轮播图*/
+    .warp{
+        width: 100%;
+    }
+    .mod-tab{
+        width: 100%;
+        min-width: 800px;
+        height: 500px;
+        margin: 5px;
+        position: relative;
+    }
+    ul{
+        list-style: none;
+    }
+    .tab-con{
+        height: 500px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .pic{
+        height: 500px;
+        width: 100%;
+    }
+    .pic a{
+        display: block;
+        width: 100%;
+        height: 500px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    .gb-tab{
+        overflow: hidden;
+        position: absolute;
+        z-index: 60;
+        bottom: 0;
+        height: 60px;
+        width: 100%;
+        text-align: center;
+    }
+    .gb-tab .item{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin: 6px;
+        color: #6ff;
+        background-color: #003c49;
+        text-align: center;
+        line-height: 16px;
+    }
+    .item2{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin: 6px;
+        color: #6ff;
+        background-color: #ffffff;
+        text-align: center;
+        line-height: 16px;
+    }
+
+    .gb-tab a:hover{
+        background-color: #ffffff;
+    }
+    .on{
+        background-color: #ffffff;
+    }
+    .arrow{
+        position: absolute;
+        top: 171px;
+        z-index: 99;
+        display: none;
+        width: 40px;
+        height: 40px;
+        font-size: 36px;
+        font-weight: bold;
+        line-height: 39px;
+        text-align: center;
+        color: #fff;
+        background-color: RGBA(0, 0, 0, .3);
+        cursor: pointer;
+    }
+    .arrow:hover {
+        background-color: RGBA(0, 0, 0, .7);
+    }
+    .warp:hover .arrow {
+        display: block;
+    }
+    #prev {
+        left: 20px;
+    }
+    #next {
+        right: 20px;
+    }
+</style>
+
 </html>

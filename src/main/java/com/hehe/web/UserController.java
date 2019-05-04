@@ -1,6 +1,7 @@
 package com.hehe.web;
 
 
+import com.hehe.bean.Func;
 import com.hehe.bean.User;
 import com.hehe.config.StaticUtil;
 import com.hehe.service.UserService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -46,5 +48,13 @@ public class UserController {
             System.out.println("文件已创建");
         }
             return "testImg_static";
+    }
+    @GetMapping("/test")
+    public String test(Model model){
+        List<Func> funcInfo = new UserService().getFunctionLists();
+        model.addAttribute("funcInfo",funcInfo);
+        //List navInfo = new UserService().getNavLists();
+        //model.addAttribute("navInfo",navInfo);
+        return "module_index";
     }
 }
