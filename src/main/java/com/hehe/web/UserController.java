@@ -1,24 +1,15 @@
 package com.hehe.web;
 
 
-import com.hehe.bean.Func;
 import com.hehe.bean.User;
 import com.hehe.config.StaticUtil;
 import com.hehe.service.UserService;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.Template;
-import org.beetl.core.resource.FileResourceLoader;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class UserController {
@@ -30,10 +21,15 @@ public class UserController {
 
         UserService userService = new UserService();
         List<User> usersInfo = userService.testAllUsers();
+        long date1 = new Date().getTime();
         staticUtil.makeBeetl("usersInfo",usersInfo,"testBeetl","testBeetl_static",request);
+        long date2 = new Date().getTime();
+        System.out.println("数据量：" + usersInfo.size() + "条,静态化过程耗时：" + (date2-date1));
         return "testBeetl_static";
     }
-    @GetMapping("/testChar")
+
+
+/*    @GetMapping("/testChar")
     public String testChar(Model model){
         model.addAttribute("numb",111);
         model.addAttribute("numb1",222);
@@ -56,5 +52,5 @@ public class UserController {
         //List navInfo = new UserService().getNavLists();
         //model.addAttribute("navInfo",navInfo);
         return "module_index";
-    }
+    }*/
 }

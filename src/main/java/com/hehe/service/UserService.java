@@ -1,6 +1,5 @@
 package com.hehe.service;
 
-import com.hehe.bean.Func;
 import com.hehe.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,7 +71,7 @@ public class UserService {
     public List<User> testAllUsers() {
         List<User> users = new ArrayList<User>();
 
-        for(int i = 1 ; i <= 3; i++){
+        for(int i = 1 ; i <= 100; i++){
             User user = new User();
             user.setId(1);
             user.setUsername("蜘蛛侠");
@@ -85,7 +84,7 @@ public class UserService {
         return users;
     }
 
-    @Autowired
+/*    @Autowired
     public List<Func> getFunctionLists(){
         List<Func> lists = new ArrayList<>();
 
@@ -122,5 +121,5 @@ public class UserService {
         lists.add("大栏目9");
 
         return lists;
-    }
+    }*/
 }
