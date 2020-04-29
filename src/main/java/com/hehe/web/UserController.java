@@ -16,6 +16,12 @@ public class UserController {
 
     StaticUtil staticUtil = new StaticUtil();
 
+    /**
+     * 测试beetl生成静态化页面速度
+     * 数据量在UserService.testAllUsers()方法  修改for循环次数
+     * @param request
+     * @return
+     */
     @GetMapping("/testBeetl")
     public String testBeetl(HttpServletRequest request){
 
